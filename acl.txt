@@ -45,8 +45,7 @@
 0.0.0.0/0 -| pokerstars.com
 0.0.0.0/0 -| *.pokerstars.com
 
-# Block other inappropriate content
-0.0.0.0/0 -| *.riba-bank.com
+
 
 # Allow everything else by default
 0.0.0.0/0 -> *:udp:53
