@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 #[derive(Debug, Parser)]
 #[clap(
-    name = "dns-firewall",
+    name = "noorDNS",
     version,
     help_template = "\
 {before-help}{name} {version}

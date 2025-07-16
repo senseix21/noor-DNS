@@ -1,37 +1,37 @@
 [package]
-name = "dns-firewall"
-description = "Filtering DNS proxy server with firewall integration"
+name = "noorDNS"
+description = "NoorDNS - Islamic-friendly DNS filtering proxy server for family-safe internet"
 version = "1.2.3"
-authors = ["Nikolaus Thümmel <commit.nthuemmel@ntcomputer.de>"]
+authors = ["senseix21 <senseix21@example.com>", "Nikolaus Thümmel <commit.nthuemmel@ntcomputer.de>"]
 edition = "2024"
 rust-version = "1.85"
 license = "MIT OR Apache-2.0"
 readme = "README.md"
-keywords = ["firewall", "dns", "network", "server"]
-categories = ["network-programming"]
-homepage = "https://github.com/nthuemmel/dns-firewall-rust"
-repository = "https://github.com/nthuemmel/dns-firewall-rust"
-documentation = "https://github.com/nthuemmel/dns-firewall-rust"
+keywords = ["dns", "firewall", "islamic", "filtering", "family-safe"]
+categories = ["network-programming", "web-programming"]
+homepage = "https://github.com/senseix21/noor-DNS"
+repository = "https://github.com/senseix21/noor-DNS"
+documentation = "https://github.com/senseix21/noor-DNS"
 
 [dependencies]
-tokio = { version = "1.44.1", default-features = false, features = ["rt", "io-util", "net", "process", "sync", "time", "macros", "signal"] }
+tokio = { version = "1.45.1", default-features = false, features = ["rt", "io-util", "net", "process", "sync", "time", "macros", "signal"] }
 ipnet = "2.11.0"
-hickory-proto = "0.25.1"
-rand = "0.9.0"
-chrono = { version = "0.4.40", default-features = false }
+hickory-proto = "0.25.2"
+rand = "0.9.1"
+chrono = { version = "0.4.41", default-features = false }
 
-clap = { version = "4.5.32", features = ["derive", "env"] }
+clap = { version = "4.5.40", features = ["derive", "env"] }
 
 thiserror = "2.0.12"
-anyhow = "1.0.97"
-log = "0.4.26"
-env_logger = { version = "0.11.7", default-features = false, features = ["color", "auto-color", "humantime"] }
+anyhow = "1.0.98"
+log = "0.4.27"
+env_logger = { version = "0.11.8", default-features = false, features = ["color", "auto-color", "humantime"] }
 
 [dev-dependencies]
-assert_cmd = "2.0.16"
+assert_cmd = "2.0.17"
 lazy_static = "1.5.0"
-tempfile = "3.19.1"
-hickory-resolver = "0.25.1"
+tempfile = "3.20.0"
+hickory-resolver = "0.25.2"
 assert_matches = "1.5.0"
 
 [profile.release]
@@ -41,13 +41,28 @@ opt-level = 's'
 
 [package.metadata.deb]
 assets = [
-    ["target/release/dns-firewall", "/usr/bin/", "755"],
-    ["dist/shared/etc/dns-firewall/*", "/etc/dns-firewall/", "644"],
+    ["target/release/noorDNS", "/usr/bin/", "755"],
+    ["dist/shared/etc/noorDNS/*", "/etc/noorDNS/", "644"],
+    ["acl.txt", "/etc/noorDNS/acl.txt", "644"],
 ]
 conf-files = [
-    "/etc/dns-firewall/acl",
-    "/etc/dns-firewall/config.env",
+    "/etc/noorDNS/acl.txt",
+    "/etc/noorDNS/config.env",
 ]
 section = "net"
 maintainer-scripts = "dist/debian/maintainer-scripts"
 systemd-units = { unit-scripts = "dist/shared/lib/systemd/system" }
+depends = "iptables, ipset"
+extended-description = """NoorDNS is an Islamic-friendly DNS filtering proxy server that provides
+family-safe internet browsing by blocking adult content, gambling sites,
+and other inappropriate material. Built in Rust for high performance and
+integrates seamlessly with iptables firewalls for comprehensive protection.
+
+Features:
+- Pre-configured Islamic content filtering
+- High-performance asynchronous DNS proxy
+- Firewall integration with iptables
+- Flexible Access Control Lists (ACL)
+- IPv4/IPv6 dual-stack support
+- Comprehensive logging
+"""

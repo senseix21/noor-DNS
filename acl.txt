@@ -1,0 +1,52 @@
+# Block adult/inappropriate content
+0.0.0.0/0 -| *.porn.com
+0.0.0.0/0 -| *.xxx
+0.0.0.0/0 -| *.adult
+0.0.0.0/0 -| *.sex
+0.0.0.0/0 -| *.cam
+0.0.0.0/0 -| *.nude
+0.0.0.0/0 -| *.naked
+0.0.0.0/0 -| *.erotic
+0.0.0.0/0 -| pornhub.com
+0.0.0.0/0 -| *.pornhub.com
+0.0.0.0/0 -| xvideos.com
+0.0.0.0/0 -| *.xvideos.com
+0.0.0.0/0 -| xnxx.com
+0.0.0.0/0 -| *.xnxx.com
+0.0.0.0/0 -| redtube.com
+0.0.0.0/0 -| *.redtube.com
+0.0.0.0/0 -| youporn.com
+0.0.0.0/0 -| *.youporn.com
+0.0.0.0/0 -| tube8.com
+0.0.0.0/0 -| *.tube8.com
+0.0.0.0/0 -| spankbang.com
+0.0.0.0/0 -| *.spankbang.com
+0.0.0.0/0 -| xhamster.com
+0.0.0.0/0 -| *.xhamster.com
+0.0.0.0/0 -| beeg.com
+0.0.0.0/0 -| *.beeg.com
+0.0.0.0/0 -| chaturbate.com
+0.0.0.0/0 -| *.chaturbate.com
+0.0.0.0/0 -| livejasmin.com
+0.0.0.0/0 -| *.livejasmin.com
+0.0.0.0/0 -| myfreecams.com
+0.0.0.0/0 -| *.myfreecams.com
+0.0.0.0/0 -| onlyfans.com
+0.0.0.0/0 -| *.onlyfans.com
+
+# Block gambling sites
+0.0.0.0/0 -| *.gambling.com
+0.0.0.0/0 -| *.casino
+0.0.0.0/0 -| *.bet
+0.0.0.0/0 -| *.poker
+0.0.0.0/0 -| *.slots
+0.0.0.0/0 -| bet365.com
+0.0.0.0/0 -| *.bet365.com
+0.0.0.0/0 -| pokerstars.com
+0.0.0.0/0 -| *.pokerstars.com
+
+# Block other inappropriate content
+0.0.0.0/0 -| *.riba-bank.com
+
+# Allow everything else by default
+0.0.0.0/0 -> *:udp:53

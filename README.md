@@ -1,19 +1,48 @@
-# dns-firewall
+# noorDNS - نور DNS
 
-[![Build Status](https://github.com/nthuemmel/dns-firewall-rust/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/nthuemmel/dns-firewall-rust/actions/workflows/main.yml?query=branch%3Amaster)
-[![crates.io](https://img.shields.io/crates/v/dns-firewall.svg)](https://crates.io/crates/dns-firewall)
+**Islamic-friendly DNS filtering proxy server with firewall integration**
 
-`dns-firewall` is a filtering DNS proxy server integrating into `iptables` firewalls written in Rust.
+*"Noor" (نور) means "light" in Arabic - bringing light to your network by filtering inappropriate content*
 
-Whereas regular firewalls can only filter by destination IP address, this server can filter by destination domain name instead.
-It restricts outbound traffic of clients according to an allowlist.
-It can, for instance, be installed on a router to ensure that a set of managed servers or virtual machines only open connections to intended destinations, filtering out telemetry or other unwanted traffic.
+## 🌟 Overview
 
-## Usage Tutorial
+noorDNS is a high-performance DNS proxy server that provides Islamic-compliant internet filtering by blocking adult content, gambling sites, and other inappropriate material. Built in Rust for speed and security, it integrates seamlessly with `iptables` firewalls to provide both DNS filtering and network-level blocking.
+
+### ✨ Key Features
+
+- 🛡️ **Islamic Content Filtering**: Pre-configured to block adult, gambling, and other haram content
+- 🚀 **High Performance**: Asynchronous Rust implementation for low latency
+- 🔒 **Firewall Integration**: Works with iptables for comprehensive network protection  
+- 📝 **Flexible ACL**: Easy-to-configure access control lists
+- 🎯 **Family-Safe**: Allow-all approach with targeted blocking of inappropriate content
+- 🌐 **IPv4/IPv6 Support**: Full dual-stack networking support
+- 📊 **Detailed Logging**: Comprehensive access and application logs
+
+## 🚀 Quick Start
+
+Get noorDNS running in minutes:
+
+```bash
+# 1. Clone and build
+git clone https://github.com/senseix21/noor-DNS.git
+cd noor-DNS
+cargo build --release
+
+# 2. Run with Islamic filtering (no firewall integration)
+./target/release/noorDNS --acl-file acl.txt --upstream 8.8.8.8 --firewall none --bind 127.0.0.1 --bind-port 8053
+
+# 3. Test it works
+dig @127.0.0.1 -p 8053 google.com        # ✅ Should work
+dig @127.0.0.1 -p 8053 pornhub.com       # ❌ Should be blocked
+```
+
+The included `acl.txt` file contains pre-configured Islamic content filtering rules.
+
+## 📖 Usage Tutorial
 
 1. **Install the server**
     
-    * If you are on Debian / Ubuntu 20.04+, you can install the latest pre-built package from [the Releases page](https://github.com/nthuemmel/dns-firewall-rust/releases/latest)
+    * If you are on Debian / Ubuntu 20.04+, you can install the latest pre-built package from [the Releases page](https://github.com/senseix21/noor-DNS/releases/latest)
 	* Otherwise, follow the [instructions below on how to build and install it](#building)
 
 2. **Prepare your firewall**
@@ -120,10 +149,10 @@ cargo build --release
 
 The server is configured either via command line arguments or environment variables.
 When using systemd, the environment variables can be loaded from a configuration file (`/etc/dns-firewall/config.env`).
-All options can be queried by running `dns-firewall --help`. Help output:
+All options can be queried by running `noorDNS --help`. Help output:
 
 ```
-Usage: dns-firewall [OPTIONS] --acl-file <ACL_FILE> --upstream <UPSTREAM> --firewall <BACKEND>
+Usage: noorDNS [OPTIONS] --acl-file <ACL_FILE> --upstream <UPSTREAM> --firewall <BACKEND>
 
 Options:
       --acl-file <ACL_FILE>
