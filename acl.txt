@@ -20,7 +20,7 @@
 @include lists/adult.txt
 @include lists/gambling.txt
 
-# Recommended (uncomment to enable)
+# Recommended (enabled by default)
 @include lists/dating.txt
 @include lists/alcohol.txt
 
