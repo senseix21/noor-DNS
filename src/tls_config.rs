@@ -28,7 +28,7 @@ impl TlsConfig {
 
         let cert_der = CertificateDer::from(cert.der().to_vec());
         let key_der = PrivateKeyDer::try_from(key_pair.serialize_der())
-            .context("Failed to serialize private key")?;
+            .map_err(|e| anyhow::anyhow!("Failed to serialize private key: {}", e))?;
 
         Ok(TlsConfig {
             cert: vec![cert_der],
