@@ -1,7 +1,7 @@
 mod access_control_list_parser;
 mod access_control_tree;
 mod dot_server;
-mod firewall_backend;
+mod dot_client;mod firewall_backend;
 mod program_config;
 mod protocol;
 mod proxy_server;
@@ -16,6 +16,7 @@ use crate::proxy_server::ProxyServer;
 use anyhow::Context;
 use env_logger::Env;
 use std::net::SocketAddr;
+use std::sync::Arc;
 use tokio::signal::unix::{SignalKind, signal};
 
 #[tokio::main(flavor = "current_thread")]
@@ -75,7 +76,12 @@ async fn run(options: ProgramConfig) -> anyhow::Result<()> {
     // Start DoT server if enabled
     let dot_server = if options.proxy_server.enable_dot {
         let dot_addr = SocketAddr::new(options.proxy_server.bind, options.proxy_server.dot_port);
-        Some(DotServer::new(dot_addr).await.context("Failed to start DoT server")?)
+        Some((
+            DotServer::new(dot_addr).await.context("Failed to start DoT server")?,
+            proxy_server.clone(),
+            options.proxy_server.upstream,
+            options.proxy_server.upstream_port,
+        ))
     } else {
         None
     };
@@ -97,10 +103,10 @@ async fn run(options: ProgramConfig) -> anyhow::Result<()> {
     // Run all servers concurrently
     let proxy_run = proxy_server.run();
     let dot_run = async {
-        if let Some(dot) = dot_server {
-            run_dot_server(dot).await
+        if let Some((dot, proxy, upstream_ip, upstream_port)) = dot_server {
+            run_dot_server(dot, proxy, upstream_ip, upstream_port).await
         } else {
-            std::future::pending().await  // Never completes if DoT disabled
+            std::future::pending().await
         }
     };
 
@@ -119,15 +125,27 @@ async fn run(options: ProgramConfig) -> anyhow::Result<()> {
 }
 
 // DoT server event loop - simple and direct
-async fn run_dot_server(server: DotServer) -> anyhow::Result<()> {
+async fn run_dot_server(
+    server: DotServer,
+    proxy: Arc<ProxyServer>,
+    upstream_ip: std::net::IpAddr,
+    upstream_port: u16,
+) -> anyhow::Result<()> {
+    use crate::dot_client::DotClient;
+    
+    let upstream_addr = SocketAddr::new(upstream_ip, upstream_port);
+    let dot_client = DotClient::new(upstream_addr)?;
+    
     loop {
         match server.accept().await {
             Ok((mut stream, addr)) => {
                 log::debug!("DoT connection from {}", addr);
                 
-                // Spawn handler for this connection
+                let proxy_clone = proxy.clone();
+                let client = dot_client.clone();
+                
                 tokio::spawn(async move {
-                    if let Err(e) = handle_dot_connection(&mut stream, addr).await {
+                    if let Err(e) = handle_dot_connection(&mut stream, addr, proxy_clone, client).await {
                         log::warn!("DoT connection error from {}: {}", addr, e);
                     }
                 });
@@ -143,16 +161,62 @@ async fn run_dot_server(server: DotServer) -> anyhow::Result<()> {
 async fn handle_dot_connection(
     stream: &mut tokio_rustls::server::TlsStream<tokio::net::TcpStream>,
     addr: SocketAddr,
+    proxy: Arc<ProxyServer>,
+    dot_client: crate::dot_client::DotClient,
 ) -> anyhow::Result<()> {
+    use crate::proxy_server::message_processor::RequestReaction;
+    
     // Read DNS query
     let query = DotServer::read_message(stream).await?;
     log::info!("DoT query from {}: {:?}", addr, query.queries());
     
-    // TODO: Process through existing DNS pipeline
-    // For now, just echo back (will implement in next step)
+    // Serialize query for message processor
+    let mut buffer = query.to_vec()?;
     
-    // Send response
-    DotServer::write_message(stream, &query).await?;
+    // Process through ACL
+    let reaction = proxy.message_processor().process_client_request(addr.ip(), &mut buffer);
+    
+    match reaction {
+        RequestReaction::Discard => {
+            log::warn!("DoT query blocked by ACL from {}", addr);
+            return Ok(());
+        }
+        RequestReaction::RespondToClient => {
+            // Blocked domain, send response from buffer
+            let response = hickory_proto::op::Message::from_vec(&buffer)?;
+            DotServer::write_message(stream, &response).await?;
+        }
+        RequestReaction::ForwardToUpstream { forwarded_request } => {
+            // Forward to upstream DoT server
+            let query_msg = hickory_proto::op::Message::from_vec(&buffer)?;
+            
+            match dot_client.query(&query_msg).await {
+                Ok(mut response) => {
+                    // Process response through message processor
+                    let mut response_buf = response.to_vec()?;
+                    
+                    let response_reaction = proxy.message_processor()
+                        .process_upstream_response(addr.ip(), &mut response_buf, &forwarded_request)
+                        .await;
+                    
+                    use crate::proxy_server::message_processor::ResponseReaction;
+                    match response_reaction {
+                        ResponseReaction::ForwardToClient => {
+                            let final_response = hickory_proto::op::Message::from_vec(&response_buf)?;
+                            DotServer::write_message(stream, &final_response).await?;
+                        }
+                        ResponseReaction::Discard => {
+                            log::debug!("DoT response discarded by processor");
+                        }
+                    }
+                }
+                Err(e) => {
+                    log::error!("Upstream DoT query failed: {}", e);
+                    return Err(e);
+                }
+            }
+        }
+    }
     
     Ok(())
 }

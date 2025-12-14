@@ -1,5 +1,5 @@
 mod access_logger;
-mod message_processor;
+pub mod message_processor;
 
 use crate::access_control_tree::AccessControlTree;
 use crate::firewall_backend::FirewallBackend;
@@ -31,6 +31,10 @@ pub struct ProxyServer {
 }
 
 impl ProxyServer {
+    pub fn message_processor(&self) -> &DnsMessageProcessor {
+        &self.message_processor
+    }
+
     pub async fn new(
         settings: ProxyServerConfig,
         access_control_tree: AccessControlTree,

@@ -39,16 +39,16 @@
 
 ---
 
-## Day 2: Polish ⏳
+## Day 2: Polish ✅
 
-### Step 6: Upstream DoT ⏳
-- [ ] Forward to 1.1.1.1:853
-- [ ] TLS client connection
-- [ ] Connection pooling
+### Step 6: Upstream DoT ✅
+- [x] Forward to 1.1.1.1:853
+- [x] TLS client connection
+- [x] Connection pooling (Clone)
 
-### Step 7: ACL Integration ⏳
-- [ ] Support TLS in ACL rules
-- [ ] Test blocking over DoT
+### Step 7: ACL Integration ✅
+- [x] Support TLS in ACL rules
+- [x] Test blocking over DoT
 
 ### Step 8: Error Handling ⏳
 - [ ] Graceful failures
