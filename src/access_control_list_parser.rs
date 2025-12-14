@@ -509,4 +509,131 @@ mod test {
     fn invalid_block_rule_domain() {
         parse("192.168.1.1 -| dest.*.local = 127.0.0.1");
     }
+
+    #[test]
+    fn test_include_directive() {
+        use std::fs;
+        use std::io::Write;
+        use tempfile::tempdir;
+
+        let dir = tempdir().unwrap();
+        
+        // Create included blocklist file
+        let blocklist_path = dir.path().join("test_blocklist.txt");
+        let mut file = fs::File::create(&blocklist_path).unwrap();
+        writeln!(file, "# Test blocklist").unwrap();
+        writeln!(file, "0.0.0.0/0 -| blocked.com").unwrap();
+        
+        // Create main ACL with @include (no allow-all for clean test)
+        let acl_path = dir.path().join("acl.txt");
+        let mut acl_file = fs::File::create(&acl_path).unwrap();
+        writeln!(acl_file, "@include test_blocklist.txt").unwrap();
+        
+        // Parse and verify
+        let tree = parse_file(&acl_path).unwrap();
+        let matcher = tree.matcher(IpAddr::from_str("0.0.0.0").unwrap());
+        
+        // Should block included domain
+        let result = matcher.find_domain_rule("blocked.com");
+        assert!(matches!(result, Rule::Block(_)), "Expected block for blocked.com, got {:?}", result);
+    }
+
+    #[test]
+    fn test_multiple_includes() {
+        use std::fs;
+        use std::io::Write;
+        use tempfile::tempdir;
+
+        let dir = tempdir().unwrap();
+        
+        // Create first blocklist
+        let list1_path = dir.path().join("adult.txt");
+        let mut file1 = fs::File::create(&list1_path).unwrap();
+        writeln!(file1, "0.0.0.0/0 -| pornhub.com").unwrap();
+        
+        // Create second blocklist
+        let list2_path = dir.path().join("gambling.txt");
+        let mut file2 = fs::File::create(&list2_path).unwrap();
+        writeln!(file2, "0.0.0.0/0 -| bet365.com").unwrap();
+        
+        // Create main ACL with multiple includes
+        let acl_path = dir.path().join("acl.txt");
+        let mut acl_file = fs::File::create(&acl_path).unwrap();
+        writeln!(acl_file, "@include adult.txt").unwrap();
+        writeln!(acl_file, "@include gambling.txt").unwrap();
+        
+        // Parse and verify both lists loaded
+        let tree = parse_file(&acl_path).unwrap();
+        let matcher = tree.matcher(IpAddr::from_str("0.0.0.0").unwrap());
+        
+        // Should block from first list
+        let result = matcher.find_domain_rule("pornhub.com");
+        assert!(matches!(result, Rule::Block(_)));
+        
+        // Should block from second list
+        let result = matcher.find_domain_rule("bet365.com");
+        assert!(matches!(result, Rule::Block(_)));
+    }
+
+    #[test]
+    fn test_include_with_comments() {
+        use std::fs;
+        use std::io::Write;
+        use tempfile::tempdir;
+
+        let dir = tempdir().unwrap();
+        
+        let blocklist_path = dir.path().join("list.txt");
+        let mut file = fs::File::create(&blocklist_path).unwrap();
+        writeln!(file, "# This is a comment").unwrap();
+        writeln!(file, "").unwrap();
+        writeln!(file, "0.0.0.0/0 -| site1.com  # inline comment").unwrap();
+        writeln!(file, "# Another comment").unwrap();
+        writeln!(file, "0.0.0.0/0 -| site2.com").unwrap();
+        
+        let acl_path = dir.path().join("acl.txt");
+        let mut acl_file = fs::File::create(&acl_path).unwrap();
+        writeln!(acl_file, "@include list.txt").unwrap();
+        
+        let tree = parse_file(&acl_path).unwrap();
+        let matcher = tree.matcher(IpAddr::from_str("0.0.0.0").unwrap());
+        
+        assert!(matches!(matcher.find_domain_rule("site1.com"), Rule::Block(_)));
+        assert!(matches!(matcher.find_domain_rule("site2.com"), Rule::Block(_)));
+    }
+
+    #[test]
+    #[should_panic(expected = "Failed to open included file")]
+    fn test_include_missing_file() {
+        use std::fs;
+        use std::io::Write;
+        use tempfile::tempdir;
+
+        let dir = tempdir().unwrap();
+        
+        let acl_path = dir.path().join("acl.txt");
+        let mut acl_file = fs::File::create(&acl_path).unwrap();
+        writeln!(acl_file, "@include nonexistent.txt").unwrap();
+        
+        parse_file(&acl_path).unwrap();
+    }
+
+    #[test]
+    fn test_include_empty_file() {
+        use std::fs;
+        use std::io::Write;
+        use tempfile::tempdir;
+
+        let dir = tempdir().unwrap();
+        
+        let blocklist_path = dir.path().join("empty.txt");
+        fs::File::create(&blocklist_path).unwrap();
+        
+        let acl_path = dir.path().join("acl.txt");
+        let mut acl_file = fs::File::create(&acl_path).unwrap();
+        writeln!(acl_file, "@include empty.txt").unwrap();
+        
+        // Should not panic on empty include
+        let _tree = parse_file(&acl_path).unwrap();
+    }
 }
