@@ -20,6 +20,12 @@ hickory-proto = "0.25.2"
 rand = "0.9.1"
 chrono = { version = "0.4.41", default-features = false }
 
+# DoT support
+tokio-rustls = "0.26"
+rustls = "0.23"
+rustls-pemfile = "2.0"
+rcgen = "0.13"
+
 clap = { version = "4.5.40", features = ["derive", "env"] }
 
 thiserror = "2.0.12"

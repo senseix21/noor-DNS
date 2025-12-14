@@ -60,6 +60,14 @@ pub struct ProxyServerConfig {
     /// Maximum duration of firewall rules, in seconds; may override TTL
     #[clap(long, env)]
     pub max_rule_time: Option<u32>,
+
+    /// Enable DNS-over-TLS (DoT) server
+    #[clap(long, env)]
+    pub enable_dot: bool,
+
+    /// Port for DoT server
+    #[clap(long, env, default_value = "853")]
+    pub dot_port: u16,
 }
 
 #[derive(Debug, Args)]
