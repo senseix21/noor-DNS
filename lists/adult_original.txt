@@ -1,0 +1,146 @@
+# Adult content blocklist
+# Auto-generated - do not edit manually
+
+# Wildcards for TLDs
+0.0.0.0/0 -| *.porn
+0.0.0.0/0 -| *.xxx
+0.0.0.0/0 -| *.adult
+0.0.0.0/0 -| *.sex
+
+# Top adult sites (Alexa top 100 adult)
+0.0.0.0/0 -| pornhub.com
+0.0.0.0/0 -| *.pornhub.com
+0.0.0.0/0 -| xvideos.com
+0.0.0.0/0 -| *.xvideos.com
+0.0.0.0/0 -| xnxx.com
+0.0.0.0/0 -| *.xnxx.com
+0.0.0.0/0 -| xhamster.com
+0.0.0.0/0 -| *.xhamster.com
+0.0.0.0/0 -| redtube.com
+0.0.0.0/0 -| *.redtube.com
+0.0.0.0/0 -| youporn.com
+0.0.0.0/0 -| *.youporn.com
+0.0.0.0/0 -| tube8.com
+0.0.0.0/0 -| *.tube8.com
+0.0.0.0/0 -| spankbang.com
+0.0.0.0/0 -| *.spankbang.com
+0.0.0.0/0 -| beeg.com
+0.0.0.0/0 -| *.beeg.com
+0.0.0.0/0 -| youjizz.com
+0.0.0.0/0 -| *.youjizz.com
+0.0.0.0/0 -| txxx.com
+0.0.0.0/0 -| *.txxx.com
+0.0.0.0/0 -| xnxx.tv
+0.0.0.0/0 -| *.xnxx.tv
+0.0.0.0/0 -| pornhd.com
+0.0.0.0/0 -| *.pornhd.com
+0.0.0.0/0 -| hclips.com
+0.0.0.0/0 -| *.hclips.com
+0.0.0.0/0 -| tnaflix.com
+0.0.0.0/0 -| *.tnaflix.com
+0.0.0.0/0 -| eporner.com
+0.0.0.0/0 -| *.eporner.com
+0.0.0.0/0 -| porn.com
+0.0.0.0/0 -| *.porn.com
+0.0.0.0/0 -| motherless.com
+0.0.0.0/0 -| *.motherless.com
+0.0.0.0/0 -| porntrex.com
+0.0.0.0/0 -| *.porntrex.com
+0.0.0.0/0 -| porngo.com
+0.0.0.0/0 -| *.porngo.com
+0.0.0.0/0 -| thumbzilla.com
+0.0.0.0/0 -| *.thumbzilla.com
+0.0.0.0/0 -| vporn.com
+0.0.0.0/0 -| *.vporn.com
+0.0.0.0/0 -| drtuber.com
+0.0.0.0/0 -| *.drtuber.com
+0.0.0.0/0 -| keezmovies.com
+0.0.0.0/0 -| *.keezmovies.com
+0.0.0.0/0 -| extremetube.com
+0.0.0.0/0 -| *.extremetube.com
+0.0.0.0/0 -| mofosex.com
+0.0.0.0/0 -| *.mofosex.com
+0.0.0.0/0 -| pornerbros.com
+0.0.0.0/0 -| *.pornerbros.com
+0.0.0.0/0 -| nuvid.com
+0.0.0.0/0 -| *.nuvid.com
+0.0.0.0/0 -| fapdu.com
+0.0.0.0/0 -| *.fapdu.com
+0.0.0.0/0 -| sexvid.xxx
+0.0.0.0/0 -| *.sexvid.xxx
+0.0.0.0/0 -| hotmovs.com
+0.0.0.0/0 -| *.hotmovs.com
+0.0.0.0/0 -| upornia.com
+0.0.0.0/0 -| *.upornia.com
+0.0.0.0/0 -| empflix.com
+0.0.0.0/0 -| *.empflix.com
+0.0.0.0/0 -| hdzog.com
+0.0.0.0/0 -| *.hdzog.com
+0.0.0.0/0 -| 4tube.com
+0.0.0.0/0 -| *.4tube.com
+0.0.0.0/0 -| tubegalore.com
+0.0.0.0/0 -| *.tubegalore.com
+0.0.0.0/0 -| sunporno.com
+0.0.0.0/0 -| *.sunporno.com
+0.0.0.0/0 -| pornone.com
+0.0.0.0/0 -| *.pornone.com
+0.0.0.0/0 -| ixxx.com
+0.0.0.0/0 -| *.ixxx.com
+0.0.0.0/0 -| analdin.com
+0.0.0.0/0 -| *.analdin.com
+0.0.0.0/0 -| alphaporno.com
+0.0.0.0/0 -| *.alphaporno.com
+0.0.0.0/0 -| pornoxo.com
+0.0.0.0/0 -| *.pornoxo.com
+0.0.0.0/0 -| h2porn.com
+0.0.0.0/0 -| *.h2porn.com
+0.0.0.0/0 -| fux.com
+0.0.0.0/0 -| *.fux.com
+0.0.0.0/0 -| xbef.com
+0.0.0.0/0 -| *.xbef.com
+
+# Cam sites
+0.0.0.0/0 -| chaturbate.com
+0.0.0.0/0 -| *.chaturbate.com
+0.0.0.0/0 -| livejasmin.com
+0.0.0.0/0 -| *.livejasmin.com
+0.0.0.0/0 -| myfreecams.com
+0.0.0.0/0 -| *.myfreecams.com
+0.0.0.0/0 -| camsoda.com
+0.0.0.0/0 -| *.camsoda.com
+0.0.0.0/0 -| stripchat.com
+0.0.0.0/0 -| *.stripchat.com
+0.0.0.0/0 -| cam4.com
+0.0.0.0/0 -| *.cam4.com
+0.0.0.0/0 -| bongacams.com
+0.0.0.0/0 -| *.bongacams.com
+0.0.0.0/0 -| flirt4free.com
+0.0.0.0/0 -| *.flirt4free.com
+
+# OnlyFans and similar
+0.0.0.0/0 -| onlyfans.com
+0.0.0.0/0 -| *.onlyfans.com
+0.0.0.0/0 -| fansly.com
+0.0.0.0/0 -| *.fansly.com
+
+# Image sites
+0.0.0.0/0 -| imagefap.com
+0.0.0.0/0 -| *.imagefap.com
+0.0.0.0/0 -| gelbooru.com
+0.0.0.0/0 -| *.gelbooru.com
+0.0.0.0/0 -| e621.net
+0.0.0.0/0 -| *.e621.net
+0.0.0.0/0 -| rule34.xxx
+0.0.0.0/0 -| *.rule34.xxx
+
+# Forums
+0.0.0.0/0 -| 4chan.org
+0.0.0.0/0 -| *.4chan.org
+
+# Hentai
+0.0.0.0/0 -| nhentai.net
+0.0.0.0/0 -| *.nhentai.net
+0.0.0.0/0 -| hanime.tv
+0.0.0.0/0 -| *.hanime.tv
+0.0.0.0/0 -| hentaihaven.org
+0.0.0.0/0 -| *.hentaihaven.org

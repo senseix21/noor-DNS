@@ -14,15 +14,16 @@ use std::str::FromStr;
 
 pub fn parse_file(file_path: &Path) -> anyhow::Result<AccessControlTree> {
     let file = File::open(file_path)?;
-    parse_input(BufReader::new(file))
+    let base_dir = file_path.parent().unwrap_or_else(|| Path::new("."));
+    parse_input(BufReader::new(file), base_dir)
 }
 
-fn parse_input(reader: impl BufRead) -> anyhow::Result<AccessControlTree> {
+fn parse_input(reader: impl BufRead, base_dir: &Path) -> anyhow::Result<AccessControlTree> {
     let mut tree_builder = AccessControlTreeBuilder::new();
 
     for (line_number, line) in reader.lines().enumerate() {
         let line = line.with_context(|| format!("Failed to read line {line_number}"))?;
-        process_line(line_number, &line, &mut tree_builder)
+        process_line(line_number, &line, &mut tree_builder, base_dir)
             .with_context(|| format!("Failed to process line {line_number}: {line}"))?;
     }
 
@@ -33,11 +34,34 @@ fn process_line(
     line_number: usize,
     line: &str,
     tree_builder: &mut AccessControlTreeBuilder,
+    base_dir: &Path,
 ) -> anyhow::Result<()> {
     let line = line.split('#').next().unwrap().trim(); // Ignore comment part
 
     if line.is_empty() {
         // This is a comment or empty line
+        return Ok(());
+    }
+
+    // Handle @include directive
+    if line.starts_with("@include") {
+        let include_path = line.strip_prefix("@include").unwrap().trim();
+        let full_path = base_dir.join(include_path);
+        
+        log::info!("Including blocklist: {}", full_path.display());
+        
+        let file = File::open(&full_path)
+            .with_context(|| format!("Failed to open included file: {}", full_path.display()))?;
+        
+        let reader = BufReader::new(file);
+        for (inc_line_num, inc_line) in reader.lines().enumerate() {
+            let inc_line = inc_line?;
+            // Recursively process included file (no nested includes to keep it simple)
+            if !inc_line.trim().starts_with('@') {
+                process_line(inc_line_num, &inc_line, tree_builder, base_dir)?;
+            }
+        }
+        
         return Ok(());
     }
 
@@ -217,7 +241,8 @@ mod test {
     use std::str::FromStr;
 
     fn parse(input: &str) -> AccessControlTree {
-        parse_input(input.as_bytes()).unwrap()
+        use std::path::Path;
+        parse_input(input.as_bytes(), Path::new(".")).unwrap()
     }
 
     #[test]

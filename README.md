@@ -4,16 +4,20 @@
 
 *"Noor" (نور) means "light" in Arabic - bringing light to your network by filtering inappropriate content*
 
+[![License: MIT OR Apache-2.0](https://img.shields.io/badge/License-MIT%20OR%20Apache--2.0-blue.svg)](LICENSE-MIT)
+[![Rust](https://img.shields.io/badge/rust-1.85%2B-orange.svg)](https://www.rust-lang.org)
+
 ## 🌟 Overview
 
 noorDNS is a high-performance DNS proxy server that provides Islamic-compliant internet filtering by blocking adult content, gambling sites, and other inappropriate material. Built in Rust for speed and security, it integrates seamlessly with `iptables` firewalls to provide both DNS filtering and network-level blocking.
 
 ### ✨ Key Features
 
-- 🛡️ **Islamic Content Filtering**: Pre-configured to block adult, gambling, and other haram content
+- 🛡️ **Islamic Content Filtering**: **300+ pre-configured domains** blocking adult, gambling, and haram content
+- 📦 **Modular Blocklists**: Easy-to-manage category-based filtering (adult, gambling, dating, alcohol)
 - 🚀 **High Performance**: Asynchronous Rust implementation for low latency
 - 🔒 **Firewall Integration**: Works with iptables for comprehensive network protection  
-- 📝 **Flexible ACL**: Easy-to-configure access control lists
+- 📝 **Flexible ACL**: Easy-to-configure access control lists with `@include` directives
 - 🎯 **Family-Safe**: Allow-all approach with targeted blocking of inappropriate content
 - 🌐 **IPv4/IPv6 Support**: Full dual-stack networking support
 - 📊 **Detailed Logging**: Comprehensive access and application logs
@@ -36,7 +40,16 @@ dig @127.0.0.1 -p 8053 google.com        # ✅ Should work
 dig @127.0.0.1 -p 8053 pornhub.com       # ❌ Should be blocked
 ```
 
-The included `acl.txt` file contains pre-configured Islamic content filtering rules.
+The included `acl.txt` file contains pre-configured Islamic content filtering rules with modular blocklists:
+
+- **adult.txt** (~2,500 domains) - Adult content, pornography, cam sites
+- **gambling.txt** (~1,500 domains) - Casinos, betting, poker sites
+- **dating.txt** (~75 domains) - Dating apps and hookup sites  
+- **alcohol.txt** (~65 domains) - Alcohol delivery services
+
+**Total: ~4,140 unique domains with 8,300+ blocking rules**
+
+See [lists/README.md](lists/README.md) for details.
 
 ## 📖 Usage Tutorial
 

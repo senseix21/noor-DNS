@@ -1,49 +1,31 @@
-# Block adult/inappropriate content
-0.0.0.0/0 -| *.porn.com
-0.0.0.0/0 -| *.xxx
-0.0.0.0/0 -| *.adult
-0.0.0.0/0 -| *.sex
-0.0.0.0/0 -| *.cam
-0.0.0.0/0 -| *.nude
-0.0.0.0/0 -| *.naked
-0.0.0.0/0 -| *.erotic
-0.0.0.0/0 -| pornhub.com
-0.0.0.0/0 -| *.pornhub.com
-0.0.0.0/0 -| xvideos.com
-0.0.0.0/0 -| *.xvideos.com
-0.0.0.0/0 -| xnxx.com
-0.0.0.0/0 -| *.xnxx.com
-0.0.0.0/0 -| redtube.com
-0.0.0.0/0 -| *.redtube.com
-0.0.0.0/0 -| youporn.com
-0.0.0.0/0 -| *.youporn.com
-0.0.0.0/0 -| tube8.com
-0.0.0.0/0 -| *.tube8.com
-0.0.0.0/0 -| spankbang.com
-0.0.0.0/0 -| *.spankbang.com
-0.0.0.0/0 -| xhamster.com
-0.0.0.0/0 -| *.xhamster.com
-0.0.0.0/0 -| beeg.com
-0.0.0.0/0 -| *.beeg.com
-0.0.0.0/0 -| chaturbate.com
-0.0.0.0/0 -| *.chaturbate.com
-0.0.0.0/0 -| livejasmin.com
-0.0.0.0/0 -| *.livejasmin.com
-0.0.0.0/0 -| myfreecams.com
-0.0.0.0/0 -| *.myfreecams.com
-0.0.0.0/0 -| onlyfans.com
-0.0.0.0/0 -| *.onlyfans.com
+# noorDNS Access Control List
+# Islamic-friendly internet filtering
+#
+# Format:
+#   [client] -> [domain]:[protocol]:[port]  = Allow DNS + Firewall
+#   [client] ~> [domain]                    = Allow DNS only
+#   [client] -| [domain]                    = Block
+#
+# Simple blocklists are in lists/ directory:
+#   - lists/adult.txt      (~2,500 domains, 5,010 rules)
+#   - lists/gambling.txt   (~1,500 domains, 3,011 rules)
+#   - lists/dating.txt     (~75 domains, 149 rules)
+#   - lists/alcohol.txt    (~65 domains, 131 rules)
+#
+# Total: ~4,140 unique domains with 8,300+ blocking rules
+#
+# To add custom blocks, edit this file or add to lists/custom.txt
 
-# Block gambling sites
-0.0.0.0/0 -| *.gambling.com
-0.0.0.0/0 -| *.casino
-0.0.0.0/0 -| *.bet
-0.0.0.0/0 -| *.poker
-0.0.0.0/0 -| *.slots
-0.0.0.0/0 -| bet365.com
-0.0.0.0/0 -| *.bet365.com
-0.0.0.0/0 -| pokerstars.com
-0.0.0.0/0 -| *.pokerstars.com
+# Core Islamic filtering (mandatory)
+@include lists/adult.txt
+@include lists/gambling.txt
+
+# Recommended (uncomment to enable)
+@include lists/dating.txt
+@include lists/alcohol.txt
+
+# Custom user blocks
+#@include lists/custom.txt
 
 
 

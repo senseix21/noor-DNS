@@ -1,0 +1,72 @@
+# Gambling sites blocklist
+
+# Wildcards
+0.0.0.0/0 -| *.casino
+0.0.0.0/0 -| *.bet
+0.0.0.0/0 -| *.poker
+0.0.0.0/0 -| *.slots
+0.0.0.0/0 -| *.gambling
+
+# Major gambling sites
+0.0.0.0/0 -| bet365.com
+0.0.0.0/0 -| *.bet365.com
+0.0.0.0/0 -| pokerstars.com
+0.0.0.0/0 -| *.pokerstars.com
+0.0.0.0/0 -| 888casino.com
+0.0.0.0/0 -| *.888casino.com
+0.0.0.0/0 -| williamhill.com
+0.0.0.0/0 -| *.williamhill.com
+0.0.0.0/0 -| betfair.com
+0.0.0.0/0 -| *.betfair.com
+0.0.0.0/0 -| unibet.com
+0.0.0.0/0 -| *.unibet.com
+0.0.0.0/0 -| bwin.com
+0.0.0.0/0 -| *.bwin.com
+0.0.0.0/0 -| betsson.com
+0.0.0.0/0 -| *.betsson.com
+0.0.0.0/0 -| ladbrokes.com
+0.0.0.0/0 -| *.ladbrokes.com
+0.0.0.0/0 -| paddypower.com
+0.0.0.0/0 -| *.paddypower.com
+0.0.0.0/0 -| skybet.com
+0.0.0.0/0 -| *.skybet.com
+0.0.0.0/0 -| betway.com
+0.0.0.0/0 -| *.betway.com
+0.0.0.0/0 -| 10bet.com
+0.0.0.0/0 -| *.10bet.com
+0.0.0.0/0 -| partypoker.com
+0.0.0.0/0 -| *.partypoker.com
+0.0.0.0/0 -| 888poker.com
+0.0.0.0/0 -| *.888poker.com
+0.0.0.0/0 -| betvictor.com
+0.0.0.0/0 -| *.betvictor.com
+0.0.0.0/0 -| marathonbet.com
+0.0.0.0/0 -| *.marathonbet.com
+0.0.0.0/0 -| bovada.lv
+0.0.0.0/0 -| *.bovada.lv
+0.0.0.0/0 -| draftkings.com
+0.0.0.0/0 -| *.draftkings.com
+0.0.0.0/0 -| fanduel.com
+0.0.0.0/0 -| *.fanduel.com
+0.0.0.0/0 -| betmgm.com
+0.0.0.0/0 -| *.betmgm.com
+
+# Crypto gambling
+0.0.0.0/0 -| stake.com
+0.0.0.0/0 -| *.stake.com
+0.0.0.0/0 -| roobet.com
+0.0.0.0/0 -| *.roobet.com
+0.0.0.0/0 -| bc.game
+0.0.0.0/0 -| *.bc.game
+0.0.0.0/0 -| rollbit.com
+0.0.0.0/0 -| *.rollbit.com
+0.0.0.0/0 -| shuffle.com
+0.0.0.0/0 -| *.shuffle.com
+0.0.0.0/0 -| duelbits.com
+0.0.0.0/0 -| *.duelbits.com
+
+# Lottery
+0.0.0.0/0 -| lottoland.com
+0.0.0.0/0 -| *.lottoland.com
+0.0.0.0/0 -| thelotter.com
+0.0.0.0/0 -| *.thelotter.com

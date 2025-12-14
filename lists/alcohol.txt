@@ -1,0 +1,131 @@
+# Alcohol and drug related sites
+
+# Alcohol delivery
+0.0.0.0/0 -| drizly.com
+0.0.0.0/0 -| *.drizly.com
+0.0.0.0/0 -| minibar.com
+0.0.0.0/0 -| *.minibar.com
+0.0.0.0/0 -| saucey.com
+0.0.0.0/0 -| *.saucey.com
+0.0.0.0/0 -| wine.com
+0.0.0.0/0 -| *.wine.com
+0.0.0.0/0 -| totalwine.com
+0.0.0.0/0 -| *.totalwine.com
+0.0.0.0/0 -| reservebar.com
+0.0.0.0/0 -| *.reservebar.com
+
+# Brewery/distillery sites
+0.0.0.0/0 -| budweiser.com
+0.0.0.0/0 -| *.budweiser.com
+0.0.0.0/0 -| heineken.com
+0.0.0.0/0 -| *.heineken.com
+0.0.0.0/0 -| corona.com
+0.0.0.0/0 -| *.corona.com
+0.0.0.0/0 -| absolut.com
+0.0.0.0/0 -| *.absolut.com
+0.0.0.0/0 -| jackdaniels.com
+0.0.0.0/0 -| *.jackdaniels.com
+0.0.0.0/0 -| johnniewalker.com
+0.0.0.0/0 -| *.johnniewalker.com
+
+# Cannabis (where legal)
+0.0.0.0/0 -| weedmaps.com
+0.0.0.0/0 -| *.weedmaps.com
+0.0.0.0/0 -| leafly.com
+0.0.0.0/0 -| *.leafly.com
+
+# Additional alcohol brands and sites
+0.0.0.0/0 -| smirnoff.com
+0.0.0.0/0 -| *.smirnoff.com
+0.0.0.0/0 -| bacardi.com
+0.0.0.0/0 -| *.bacardi.com
+0.0.0.0/0 -| jameson.com
+0.0.0.0/0 -| *.jameson.com
+0.0.0.0/0 -| captainmorgan.com
+0.0.0.0/0 -| *.captainmorgan.com
+0.0.0.0/0 -| grey goose.com
+0.0.0.0/0 -| *.greygoose.com
+0.0.0.0/0 -| patron.com
+0.0.0.0/0 -| *.patron.com
+0.0.0.0/0 -| jagermeister.com
+0.0.0.0/0 -| *.jagermeister.com
+0.0.0.0/0 -| tanqueray.com
+0.0.0.0/0 -| *.tanqueray.com
+0.0.0.0/0 -| hennessy.com
+0.0.0.0/0 -| *.hennessy.com
+0.0.0.0/0 -| remy martin.com
+0.0.0.0/0 -| *.remymartin.com
+0.0.0.0/0 -| baileys.com
+0.0.0.0/0 -| *.baileys.com
+0.0.0.0/0 -| crown royal.com
+0.0.0.0/0 -| *.crownroyal.com
+0.0.0.0/0 -| maker mark.com
+0.0.0.0/0 -| *.makersmark.com
+0.0.0.0/0 -| jim beam.com
+0.0.0.0/0 -| *.jimbeam.com
+0.0.0.0/0 -| wild turkey.com
+0.0.0.0/0 -| *.wildturkey.com
+0.0.0.0/0 -| fireball.com
+0.0.0.0/0 -| *.fireball.com
+0.0.0.0/0 -| stella artois.com
+0.0.0.0/0 -| *.stellaartois.com
+0.0.0.0/0 -| guinness.com
+0.0.0.0/0 -| *.guinness.com
+0.0.0.0/0 -| carlsberg.com
+0.0.0.0/0 -| *.carlsberg.com
+0.0.0.0/0 -| modelo.com
+0.0.0.0/0 -| *.modelo.com
+0.0.0.0/0 -| dos equis.com
+0.0.0.0/0 -| *.dosequis.com
+0.0.0.0/0 -| tecate.com
+0.0.0.0/0 -| *.tecate.com
+0.0.0.0/0 -| pacifico.com
+0.0.0.0/0 -| *.pacifico.com
+0.0.0.0/0 -| sam adams.com
+0.0.0.0/0 -| *.samueladams.com
+0.0.0.0/0 -| miller.com
+0.0.0.0/0 -| *.miller.com
+0.0.0.0/0 -| coors.com
+0.0.0.0/0 -| *.coors.com
+0.0.0.0/0 -| pabst.com
+0.0.0.0/0 -| *.pabst.com
+0.0.0.0/0 -| yuengling.com
+0.0.0.0/0 -| *.yuengling.com
+
+# Alcohol delivery/marketplace
+0.0.0.0/0 -| bevmo.com
+0.0.0.0/0 -| *.bevmo.com
+0.0.0.0/0 -| vivino.com
+0.0.0.0/0 -| *.vivino.com
+0.0.0.0/0 -| vinepair.com
+0.0.0.0/0 -| *.vinepair.com
+0.0.0.0/0 -| drinkiq.com
+0.0.0.0/0 -| *.drinkiq.com
+0.0.0.0/0 -| barnivore.com
+0.0.0.0/0 -| *.barnivore.com
+0.0.0.0/0 -| wine-searcher.com
+0.0.0.0/0 -| *.wine-searcher.com
+0.0.0.0/0 -| klwines.com
+0.0.0.0/0 -| *.klwines.com
+0.0.0.0/0 -| astorwines.com
+0.0.0.0/0 -| *.astorwines.com
+0.0.0.0/0 -| wine enthusiast.com
+0.0.0.0/0 -| *.wineenthusiast.com
+0.0.0.0/0 -| wine spectator.com
+0.0.0.0/0 -| *.winespectator.com
+0.0.0.0/0 -| thewhiskyexchange.com
+0.0.0.0/0 -| *.thewhiskyexchange.com
+0.0.0.0/0 -| masterofmalt.com
+0.0.0.0/0 -| *.masterofmalt.com
+0.0.0.0/0 -| caskers.com
+0.0.0.0/0 -| *.caskers.com
+0.0.0.0/0 -| flaviar.com
+0.0.0.0/0 -| *.flaviar.com
+0.0.0.0/0 -| sipwhiskey.com
+0.0.0.0/0 -| *.sipwhiskey.com
+0.0.0.0/0 -| craftshack.com
+0.0.0.0/0 -| *.craftshack.com
+0.0.0.0/0 -| beer cartel.com
+0.0.0.0/0 -| *.beercartel.com.au
+0.0.0.0/0 -| craftbeercellar.com
+0.0.0.0/0 -| *.craftbeercellar.com

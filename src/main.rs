@@ -18,6 +18,7 @@ use tokio::signal::unix::{SignalKind, signal};
 async fn main() -> anyhow::Result<()> {
     // Parse options
     let options = ProgramConfig::parse();
+    println!("Parsed options: {:?}", options);
 
     // Set up logging
     env_logger::Builder::from_env(Env::default().default_filter_or(if cfg!(debug_assertions) {
