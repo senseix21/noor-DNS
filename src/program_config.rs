@@ -68,6 +68,14 @@ pub struct ProxyServerConfig {
     /// Port for DoT server
     #[clap(long, env, default_value = "853")]
     pub dot_port: u16,
+
+    /// Enable DNS-over-HTTPS (DoH) server
+    #[clap(long, env)]
+    pub enable_doh: bool,
+
+    /// Port for DoH server
+    #[clap(long, env, default_value = "443")]
+    pub doh_port: u16,
 }
 
 #[derive(Debug, Args)]

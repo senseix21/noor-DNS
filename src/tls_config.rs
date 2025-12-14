@@ -46,3 +46,10 @@ impl TlsConfig {
         Ok(Arc::new(config))
     }
 }
+
+// Create TLS acceptor for DoT/DoH
+pub fn create_tls_acceptor() -> Result<tokio_rustls::TlsAcceptor> {
+    let tls_config = TlsConfig::generate_self_signed()?;
+    let server_config = tls_config.server_config()?;
+    Ok(tokio_rustls::TlsAcceptor::from(server_config))
+}

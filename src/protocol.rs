@@ -2,7 +2,8 @@
 pub enum Protocol {
     Tcp,
     Udp,
-    Tls,  // DoT - port 853
+    Tls,   // DoT - port 853
+    Https, // DoH - port 443
 }
 
 impl Protocol {
@@ -13,6 +14,8 @@ impl Protocol {
             Some(Protocol::Udp)
         } else if input.eq_ignore_ascii_case("TLS") {
             Some(Protocol::Tls)
+        } else if input.eq_ignore_ascii_case("HTTPS") || input.eq_ignore_ascii_case("DOH") {
+            Some(Protocol::Https)
         } else {
             None
         }
@@ -22,7 +25,8 @@ impl Protocol {
         match self {
             Self::Tcp => 6,
             Self::Udp => 17,
-            Self::Tls => 6,  // TLS runs over TCP
+            Self::Tls => 6,   // TLS runs over TCP
+            Self::Https => 6, // HTTPS runs over TCP
         }
     }
 }
@@ -33,6 +37,7 @@ impl std::fmt::Display for Protocol {
             Self::Tcp => write!(f, "TCP"),
             Self::Udp => write!(f, "UDP"),
             Self::Tls => write!(f, "TLS"),
+            Self::Https => write!(f, "HTTPS"),
         }
     }
 }

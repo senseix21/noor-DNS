@@ -21,7 +21,7 @@ use tokio::time::{Duration, timeout};
 const BUFFER_SIZE: usize = 32768;
 
 pub struct ProxyServer {
-    message_processor: DnsMessageProcessor,
+    message_processor: Arc<DnsMessageProcessor>,
     upstream_server_socket_addr: SocketAddr,
     upstream_client_init_socket_addr: SocketAddr,
     udp_server_socket: UdpSocket,
@@ -31,8 +31,8 @@ pub struct ProxyServer {
 }
 
 impl ProxyServer {
-    pub fn message_processor(&self) -> &DnsMessageProcessor {
-        &self.message_processor
+    pub fn message_processor(&self) -> Arc<DnsMessageProcessor> {
+        self.message_processor.clone()
     }
 
     pub async fn new(
@@ -40,7 +40,7 @@ impl ProxyServer {
         access_control_tree: AccessControlTree,
         firewall_backend: Box<dyn FirewallBackend>,
     ) -> anyhow::Result<Arc<Self>> {
-        let message_processor = DnsMessageProcessor::new(
+        let message_processor = Arc::new(DnsMessageProcessor::new(
             access_control_tree,
             chrono::Duration::seconds(settings.min_rule_time as i64),
             settings
@@ -48,7 +48,7 @@ impl ProxyServer {
                 .map(|v| chrono::Duration::seconds(v as i64))
                 .unwrap_or(chrono::Duration::MAX),
             firewall_backend,
-        );
+        ));
 
         let bind_socket_addr = SocketAddr::new(settings.bind, settings.bind_port);
 

@@ -1,12 +1,15 @@
 mod access_control_list_parser;
 mod access_control_tree;
+mod doh_server;
+mod dot_client;
 mod dot_server;
-mod dot_client;mod firewall_backend;
+mod firewall_backend;
 mod program_config;
 mod protocol;
 mod proxy_server;
 mod tls_config;
 
+use crate::doh_server::DohServer;
 use crate::dot_server::DotServer;
 use crate::firewall_backend::FirewallBackend;
 use crate::firewall_backend::iptables::IptablesFirewallBackend;
@@ -86,6 +89,16 @@ async fn run(options: ProgramConfig) -> anyhow::Result<()> {
         None
     };
 
+    // Start DoH server if enabled
+    let doh_server = if options.proxy_server.enable_doh {
+        let doh_addr = SocketAddr::new(options.proxy_server.bind, options.proxy_server.doh_port);
+        let tls_acceptor = crate::tls_config::create_tls_acceptor()?;
+        let processor = proxy_server.message_processor();
+        Some((DohServer::new(processor), doh_addr, tls_acceptor))
+    } else {
+        None
+    };
+
     let mut sigint = signal(SignalKind::interrupt()).unwrap();
     let mut sigterm = signal(SignalKind::terminate()).unwrap();
     let mut sigquit = signal(SignalKind::quit()).unwrap();
@@ -100,6 +113,10 @@ async fn run(options: ProgramConfig) -> anyhow::Result<()> {
         log::info!("DoT server enabled on port {}", options.proxy_server.dot_port);
     }
 
+    if options.proxy_server.enable_doh {
+        log::info!("DoH server enabled on port {}", options.proxy_server.doh_port);
+    }
+
     // Run all servers concurrently
     let proxy_run = proxy_server.run();
     let dot_run = async {
@@ -109,11 +126,19 @@ async fn run(options: ProgramConfig) -> anyhow::Result<()> {
             std::future::pending().await
         }
     };
+    let doh_run = async {
+        if let Some((doh, addr, acceptor)) = doh_server {
+            run_doh_server(doh, addr, acceptor).await
+        } else {
+            std::future::pending().await
+        }
+    };
 
     // Run until a fatal error is encountered or one of the specified signals are received
     (tokio::select! {
         r = proxy_run => r,
         r = dot_run => r,
+        r = doh_run => r,
         _ = sigint.recv() => Ok(()),
         _ = sigterm.recv() => Ok(()),
         _ = sigquit.recv() => Ok(()),
@@ -220,4 +245,13 @@ async fn handle_dot_connection(
     }
     
     Ok(())
+}
+
+// DoH server event loop
+async fn run_doh_server(
+    server: DohServer,
+    addr: SocketAddr,
+    acceptor: tokio_rustls::TlsAcceptor,
+) -> anyhow::Result<()> {
+    server.run(addr, acceptor).await.map_err(|e| anyhow::anyhow!("{}", e))
 }
