@@ -41,27 +41,38 @@ impl DotClient {
     }
 
     pub async fn query(&self, msg: &Message) -> Result<Message> {
-        // Connect
-        let stream = TcpStream::connect(self.upstream_addr).await
-            .context("Failed to connect to upstream DoT server")?;
+        let timeout = tokio::time::Duration::from_secs(5);
         
-        let mut tls_stream = self.connector.connect(self.server_name.clone(), stream).await
-            .context("TLS handshake with upstream failed")?;
+        tokio::time::timeout(timeout, async {
+            // Connect
+            let stream = TcpStream::connect(self.upstream_addr).await
+                .context("Failed to connect to upstream DoT server")?;
+            
+            let mut tls_stream = self.connector.connect(self.server_name.clone(), stream).await
+                .context("TLS handshake with upstream failed")?;
 
-        // Send query (RFC 7858: 2-byte length + DNS message)
-        let query_bytes = msg.to_vec()?;
-        let len = query_bytes.len() as u16;
-        
-        tls_stream.write_u16(len).await?;
-        tls_stream.write_all(&query_bytes).await?;
-        tls_stream.flush().await?;
+            // Send query (RFC 7858: 2-byte length + DNS message)
+            let query_bytes = msg.to_vec()?;
+            let len = query_bytes.len() as u16;
+            
+            tls_stream.write_u16(len).await?;
+            tls_stream.write_all(&query_bytes).await?;
+            tls_stream.flush().await?;
 
-        // Read response
-        let response_len = tls_stream.read_u16().await? as usize;
-        let mut response_bytes = vec![0u8; response_len];
-        tls_stream.read_exact(&mut response_bytes).await?;
+            // Read response
+            let response_len = tls_stream.read_u16().await? as usize;
+            
+            if response_len > 65535 {
+                anyhow::bail!("Response too large: {} bytes", response_len);
+            }
+            
+            let mut response_bytes = vec![0u8; response_len];
+            tls_stream.read_exact(&mut response_bytes).await?;
 
-        Message::from_vec(&response_bytes)
-            .context("Failed to parse upstream DoT response")
+            Message::from_vec(&response_bytes)
+                .context("Failed to parse upstream DoT response")
+        })
+        .await
+        .context("Upstream DoT query timed out")?
     }
 }

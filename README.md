@@ -13,7 +13,8 @@ noorDNS is a high-performance DNS proxy server that provides Islamic-compliant i
 
 ### ✨ Key Features
 
-- 🛡️ **Islamic Content Filtering**: **300+ pre-configured domains** blocking adult, gambling, and haram content
+- 🛡️ **Islamic Content Filtering**: **4,140+ domains** blocking adult, gambling, and haram content
+- 🔐 **DNS-over-TLS (DoT)**: Encrypted DNS queries for privacy and security (RFC 7858)
 - 📦 **Modular Blocklists**: Easy-to-manage category-based filtering (adult, gambling, dating, alcohol)
 - 🚀 **High Performance**: Asynchronous Rust implementation for low latency
 - 🔒 **Firewall Integration**: Works with iptables for comprehensive network protection  
@@ -38,6 +39,10 @@ cargo build --release
 # 3. Test it works
 dig @127.0.0.1 -p 8053 google.com        # ✅ Should work
 dig @127.0.0.1 -p 8053 pornhub.com       # ❌ Should be blocked
+
+# 4. Enable encrypted DNS-over-TLS (DoT)
+../target/release/noorDNS --acl-file acl.txt --upstream 1.1.1.1 --firewall none --enable-dot
+# DoT server will listen on port 853 (requires root) or use --dot-port 8853
 ```
 
 The included `acl.txt` file contains pre-configured Islamic content filtering rules with modular blocklists:

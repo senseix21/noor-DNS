@@ -139,14 +139,15 @@ async fn run_dot_server(
     loop {
         match server.accept().await {
             Ok((mut stream, addr)) => {
-                log::debug!("DoT connection from {}", addr);
-                
                 let proxy_clone = proxy.clone();
                 let client = dot_client.clone();
                 
                 tokio::spawn(async move {
-                    if let Err(e) = handle_dot_connection(&mut stream, addr, proxy_clone, client).await {
-                        log::warn!("DoT connection error from {}: {}", addr, e);
+                    let timeout = tokio::time::Duration::from_secs(10);
+                    match tokio::time::timeout(timeout, handle_dot_connection(&mut stream, addr, proxy_clone, client)).await {
+                        Ok(Ok(())) => log::debug!("DoT connection from {} completed", addr),
+                        Ok(Err(e)) => log::warn!("DoT connection error from {}: {}", addr, e),
+                        Err(_) => log::warn!("DoT connection from {} timed out", addr),
                     }
                 });
             }
