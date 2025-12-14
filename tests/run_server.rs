@@ -13,7 +13,7 @@ use std::time::Duration;
 use tempfile::NamedTempFile;
 
 lazy_static::lazy_static! {
-    static ref COMPILED_BINARY_PATH: PathBuf = assert_cmd::cargo::cargo_bin("dns-firewall");
+    static ref COMPILED_BINARY_PATH: PathBuf = assert_cmd::cargo::cargo_bin("noorDNS");
 }
 
 /// The given test closure must accept ephemeral server port as argument
@@ -34,14 +34,17 @@ fn with_server(acl: &str, test: impl FnOnce(u16) + UnwindSafe) {
             "--firewall",
             "none",
             "--upstream",
-            "127.0.0.53",
+            "8.8.8.8",  // Use Google DNS instead of 127.0.0.53
+            "--bind",
+            "127.0.0.1",  // Explicitly bind to localhost
             "--bind-port",
             &random_port.to_string(),
         ])
         .spawn()
         .expect("Failed to launch server");
 
-    std::thread::sleep(Duration::from_millis(500));
+    // Give server more time to start
+    std::thread::sleep(Duration::from_millis(1000));
 
     let test_result = std::panic::catch_unwind(|| test(random_port));
 
@@ -79,7 +82,7 @@ async fn resolve(server_port: u16, server_protocol: Protocol, domain: &str) -> R
         None,
         vec![],
         vec![NameServerConfig {
-            socket_addr: SocketAddrV4::new(Ipv4Addr::new(127, 0, 0, 53), server_port).into(),
+            socket_addr: SocketAddrV4::new(Ipv4Addr::new(127, 0, 0, 1), server_port).into(),
             protocol: server_protocol,
             tls_dns_name: None,
             http_endpoint: None,
