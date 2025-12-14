@@ -5,7 +5,6 @@ use crate::tls_config::TlsConfig;
 use anyhow::{Context, Result};
 use hickory_proto::op::Message;
 use std::net::SocketAddr;
-use std::sync::Arc;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::{TcpListener, TcpStream};
 use tokio_rustls::{TlsAcceptor, server::TlsStream};

@@ -217,7 +217,7 @@ async fn handle_dot_connection(
             let query_msg = hickory_proto::op::Message::from_vec(&buffer)?;
             
             match dot_client.query(&query_msg).await {
-                Ok(mut response) => {
+                Ok(response) => {
                     // Process response through message processor
                     let mut response_buf = response.to_vec()?;
                     
